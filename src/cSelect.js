@@ -2,7 +2,7 @@
 * <select> framework
 *
 * @class cSelect
-* @version 0.0.1
+* @version 0.0.2
 * @license MIT
 *
 * @author Christian Marienfeld post@chrisand.de
@@ -55,7 +55,7 @@ function cSelect(root, param) {
 *
 *
 * @function toButtons
-* @version 0.0.1
+* @version 0.0.2
 *
 * @return {Object} cSelect Object
 *
@@ -90,6 +90,7 @@ cSelect.prototype.toButtons = function (param, onclickEvent) {
 		}
 	}
 
+	var active = undefined;
 	var list = document.createElement(opt.elementWrap || 'div');
 	list.className = opt.classWrap;
 	for ( var i = 0; i < l; i++) {
@@ -101,16 +102,23 @@ cSelect.prototype.toButtons = function (param, onclickEvent) {
 			value: i
 		};
 		btn.onclick = function (e) {
-			root.selectedIndex = this.mySelect.value;
-			if (onclickEvent && typeof onclickEvent === 'function') {
-				onclickEvent(this.mySelect, e, root);
+			e.preventDefault();
+			root.selectedIndex = e.target.mySelect.value;
+			if (active) {
+				active.classList.remove('active');
 			}
+			e.target.classList.add('active');
+			active = e.target;
+			if (onclickEvent && typeof onclickEvent === 'function') {
+				onclickEvent(e.currentTarget.mySelect, e, root);
+			}
+			return false;
 		};
 		list.appendChild(btn);
 	}
 
 	root.style.display = 'none';
-	document.body.insertBefore(list, root);
+	root.parentNode.insertBefore(list, root.nextSibling);
 
 	return this;
 
