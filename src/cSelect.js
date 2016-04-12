@@ -2,7 +2,7 @@
 * <select> framework
 *
 * @class cSelect
-* @version 0.0.2
+* @version 0.0.3
 * @license MIT
 *
 * @author Christian Marienfeld post@chrisand.de
@@ -55,7 +55,7 @@ function cSelect(root, param) {
 *
 *
 * @function toButtons
-* @version 0.0.2
+* @version 0.0.3
 *
 * @return {Object} cSelect Object
 *
@@ -97,6 +97,9 @@ cSelect.prototype.toButtons = function (param, onclickEvent) {
 
 		var btn = document.createElement(opt.elementItem || 'button');
 		btn.textContent = root.options[i].innerText;
+		if (!root.options[i].innerText) {
+			btn.style.display = 'none';
+		}
 		btn.className = opt.classItem;
 		btn.mySelect = {
 			value: i
